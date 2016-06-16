@@ -81,6 +81,7 @@
         android:layout_height="wrap_content"
         android:text="About us"
         android:id="@+id/button"
+        android:onClick="OpenWebBrowser"
         android:layout_alignParentBottom="true"
         android:layout_alignRight="@+id/progressBar"
         android:layout_alignEnd="@+id/progressBar" />
@@ -119,7 +120,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="1.81"
+        android:text="1.813"
         android:id="@+id/textView8"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/textView7"
