@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 public class Web extends AppCompatActivity {
 
@@ -15,6 +16,7 @@ public class Web extends AppCompatActivity {
         WebView wv=(WebView)findViewById(R.id.webView);
         WebSettings webSettings = wv.getSettings();
         webSettings.setJavaScriptEnabled(true);
+        wv.setWebViewClient(new WebViewClient());
         wv.loadUrl("http://canadiansolar.com");
 
     }
