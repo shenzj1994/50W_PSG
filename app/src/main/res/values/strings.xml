@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">cSolar</string>
+
+    <string name="title_activity_fullscreen">FullscreenActivity</string>
+    <string name="dummy_button">Enter Demo</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="power_min">0</string>
+    <string name="power_max">50</string>
+</resources>
