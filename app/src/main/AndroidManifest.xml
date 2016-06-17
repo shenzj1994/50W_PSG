@@ -20,11 +20,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".Web" />
-        <activity
-            android:name=".start"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_start"
-            android:theme="@style/FullscreenTheme"></activity>
+
     </application>
 
 </manifest>
