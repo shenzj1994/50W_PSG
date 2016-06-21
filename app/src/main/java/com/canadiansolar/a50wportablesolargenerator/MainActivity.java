@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setTitle("50W Portable Solar Generator Monitor");
+        setTitle("50W PSG Monitor");
 
         v="18.0";
         v=v.concat(" V");
