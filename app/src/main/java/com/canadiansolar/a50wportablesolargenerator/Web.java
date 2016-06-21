@@ -20,7 +20,7 @@ public class Web extends AppCompatActivity {
         WebSettings webSettings = wv.getSettings();
         webSettings.setJavaScriptEnabled(true);
         wv.setWebViewClient(new WebViewClient());
-        wv.loadUrl("http://canadiansolar.com");
+        wv.loadUrl("http://google.com");
 
     }
 

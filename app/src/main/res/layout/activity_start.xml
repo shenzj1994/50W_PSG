@@ -9,31 +9,11 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.canadiansolar.a50wportablesolargenerator.Start">
 
-    <LinearLayout
-        android:orientation="vertical"
+    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="500dp"
-        android:id="@+id/linearLayout">
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/imageView"
-            android:src="@drawable/csme_banner"
-            android:layout_centerHorizontal="true"
-            android:contentDescription="Logo" />
-
-    </LinearLayout>
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Enter Demo"
-        android:id="@+id/button2"
-        android:onClick="Entermain"
-        android:layout_alignParentBottom="true"
-        android:layout_alignRight="@+id/linearLayout"
-        android:layout_alignEnd="@+id/linearLayout"
-        android:textStyle="bold|italic" />
+        android:layout_height="match_parent"
+        android:id="@+id/imageView"
+        android:src="@drawable/csme_banner"
+        android:contentDescription="Logo" />
 
 </RelativeLayout>

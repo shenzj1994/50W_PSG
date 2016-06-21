@@ -8,29 +8,15 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.canadiansolar.a50wportablesolargenerator.MainActivity"
-    android:clickable="true">
+    android:clickable="false">
 
-    <ProgressBar
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/progressBar"
-        android:max="50"
-        android:progress="35"
-        android:scaleY="3"
-        android:indeterminate="false"
-        android:layout_below="@+id/textView"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:progressTint="@android:color/holo_red_light" />
+
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Power Level"
+        android:text="Voltage"
         android:id="@+id/textView"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
@@ -39,42 +25,12 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Power (W)"
-        android:id="@+id/textView2"
-        android:layout_below="@+id/power_min"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:id="@+id/tv_v_value"
+        android:layout_below="@+id/textView"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="35"
-        android:id="@+id/textView3"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/textView2"
-        android:layout_alignParentLeft="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Voltage (V)"
-        android:id="@+id/textView4"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/textView3"
-        android:layout_alignParentLeft="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="19.3"
-        android:id="@+id/textView5"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/textView4"
-        android:layout_alignParentLeft="true" />
+        android:text="Null" />
 
     <Button
         android:layout_width="wrap_content"
@@ -83,26 +39,6 @@
         android:id="@+id/button"
         android:onClick="OpenWebBrowser"
         android:layout_alignParentBottom="true"
-        android:layout_alignRight="@+id/progressBar"
-        android:layout_alignEnd="@+id/progressBar" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/power_min"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:id="@+id/power_min"
-        android:layout_below="@+id/progressBar"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="@string/power_max"
-        android:id="@+id/textView6"
-        android:layout_below="@+id/progressBar"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
@@ -110,20 +46,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Current (A)"
-        android:id="@+id/textView7"
-        android:layout_below="@+id/textView5"
+        android:text="My BT Device Name"
+        android:id="@+id/textView2"
+        android:layout_below="@+id/tv_v_value"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="1.813"
-        android:id="@+id/textView8"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/textView7"
-        android:layout_alignParentLeft="true" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Null"
+        android:id="@+id/tv_bt_name"
+        android:layout_below="@+id/textView2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
 
 </RelativeLayout>
