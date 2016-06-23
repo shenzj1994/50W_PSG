@@ -20,8 +20,7 @@ public class Web extends AppCompatActivity {
         WebSettings webSettings = wv.getSettings();
         webSettings.setJavaScriptEnabled(true);
         wv.setWebViewClient(new WebViewClient());
-        wv.loadUrl("http://google.com");
-
+        wv.loadUrl("http://docs.google.com/gview?embedded=true&url="+"http://www.canadiansolar.com/fileadmin/user_upload/downloads/manuals/Canadian_Solar-Manual-Andes_v5.3.pdf");
     }
 
 

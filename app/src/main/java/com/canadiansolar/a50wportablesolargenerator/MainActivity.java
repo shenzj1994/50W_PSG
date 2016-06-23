@@ -3,36 +3,26 @@ package com.canadiansolar.a50wportablesolargenerator;
 
 import android.content.Intent;
 import android.location.Location;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 
-import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationServices;
 
 import static com.canadiansolar.a50wportablesolargenerator.R.id.*;
 import android.util.Log;
 
 
 
-public class MainActivity
-        extends AppCompatActivity
-        implements GoogleApiClient.ConnectionCallbacks,GoogleApiClient.OnConnectionFailedListener {
+public class MainActivity extends AppCompatActivity {
 
     TextView V_Txt;
-    TextView BT_Txt;
-    TextView mLatitudeText;
-    TextView mLongitudeText;
-
-    String v;
-    GoogleApiClient mGoogleApiClient;
-
-    Location mLastLocation;
+    TextView C_Txt;
+    TextView P_Txt;
+    double voltage,current,power;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,24 +30,15 @@ public class MainActivity
         setContentView(R.layout.activity_main);
         setTitle("50W PSG Monitor");
 
-        mLatitudeText=(TextView) findViewById(R.id.location);
+        ProgressBar vprogress=(ProgressBar)findViewById(progressBar2);
+        V_Txt = (TextView) findViewById(tv_v_value);
+        C_Txt = (TextView)findViewById(tv_c_value);
+        P_Txt = (TextView)findViewById(tv_p_value);
 
-
-
-        // Create an instance of GoogleAPIClient.
-        if (mGoogleApiClient == null) {
-            mGoogleApiClient = new GoogleApiClient.Builder(this)
-                    .addConnectionCallbacks(this)
-                    .addOnConnectionFailedListener(this)
-                    .addApi(LocationServices.API)
-                    .build();
-        }
 
     }
 
     protected void onStart() {
-        mGoogleApiClient.connect();
-        Log.d("TAG","connecting finish");
         super.onStart();
     }
 
@@ -65,20 +46,13 @@ public class MainActivity
     protected void onResume() {
         super.onResume();
 
-        v = "18.0";
-        v = v.concat(" V");
-        V_Txt = (TextView) findViewById(tv_v_value);
-        V_Txt.setText(v);
+        voltage = 0;
+        current = 0;
+        power=voltage*current;
 
-        BT_Txt = (TextView) findViewById(tv_bt_name);
-        BT_Txt.setText("Here is the BT name");
-
-
-    }
-
-    protected void onStop() {
-        mGoogleApiClient.disconnect();
-        super.onStop();
+        V_Txt.setText(voltage+" V");
+        C_Txt.setText(current+" A");
+        P_Txt.setText(power+" W");
     }
 
     /**
@@ -90,28 +64,6 @@ public class MainActivity
     }
 
     public void change_voltage() {
-
-    }
-
-    @Override
-    public void onConnected(Bundle connectionHint) {
-        Log.d("TAG","onConnected start");
-        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        if (mLastLocation != null) {
-            mLatitudeText.setText(String.valueOf(mLastLocation.getLatitude()));
-            mLongitudeText.setText(String.valueOf(mLastLocation.getLongitude()));
-
-        }
-    }
-
-
-    @Override
-    public void onConnectionSuspended(int i) {
-
-    }
-
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
 }
