@@ -1,11 +1,8 @@
 <resources>
-    <string name="app_name">cSolar</string>
+    <string name="app_name">Maple II</string>
 
 
     <string name="power_min">0</string>
     <string name="power_max">50</string>
 
-    <string name="title_activity_start">start</string>
-    <string name="dummy_button">Enter Demo</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>

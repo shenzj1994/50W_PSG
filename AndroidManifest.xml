@@ -35,9 +35,6 @@
         <activity android:name=".BT"
             android:theme="@style/Base.V21.Theme.AppCompat.Light" />
 
-        <activity android:name="app.akexorcist.bluetoothspp.DeviceList" />
-
-
     </application>
 
 </manifest>
