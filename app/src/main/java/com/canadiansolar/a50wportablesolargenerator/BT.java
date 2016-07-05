@@ -34,16 +34,9 @@ public class BT extends Activity {
         super.onStart();
         //Set default BT Adapter
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        //MY_UUID=UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
-        MY_UUID = UUID.randomUUID();
-        String suuid = MY_UUID.toString();
-        Log.d("UUID", suuid);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
+        //IMPORTANT: This UUID is exclusively for Serial. Do NOT change and make sure it contains lower case ONLY, or the 'fromString' won't work.
+        MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb");
+        Log.d("UUID", MY_UUID.toString());
     }
 
 
@@ -76,7 +69,7 @@ public class BT extends Activity {
             // because mmSocket is final
             BluetoothSocket tmp = null;
             mmDevice = device;
-            Log.d("Thread", "Start ConnectThread");
+            Log.d("Thread", "Start Thread");
 
             // Get a BluetoothSocket to connect with the given BluetoothDevice
             try {
@@ -95,6 +88,7 @@ public class BT extends Activity {
             try {
                 // Connect the device through the socket. This will block
                 // until it succeeds or throws an exception
+                Log.d("Thread", "Start Connect");
                 mmSocket.connect();
                 Log.d("Thread", "Tried Connect");
             } catch (IOException connectException) {
@@ -104,21 +98,7 @@ public class BT extends Activity {
                 } catch (IOException closeException) {
                 }
             }
-
             // Do work to manage the connection (in a separate thread)
-
         }
-
-        /**
-         * Will cancel an in-progress connection, and close the socket
-         */
-/*        public void cancel() {
-            try {
-                mmSocket.close();
-            } catch (IOException e) {
-            }
-        }*/
     }
-
-
 }
