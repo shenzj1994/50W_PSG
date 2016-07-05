@@ -14,7 +14,6 @@ public class Start extends Activity {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_start);
-        super.onResume();
 /*        // Delay for some time
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {

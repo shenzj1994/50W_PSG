@@ -20,27 +20,24 @@ public class BT extends Activity {
 
     private Set<BluetoothDevice> BTDevices;
     private BluetoothAdapter mBluetoothAdapter;
+    private BluetoothDevice mmDevice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bt);
-
     }
 
 
     @Override
     protected void onStart() {
         super.onStart();
+        //Set default BT Adapter
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
-        for (BluetoothDevice device:pairedDevices){
-            if(device.getName().equals("HC-06")){
-
-            }
-        }
-
-
+        //MY_UUID=UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
+        MY_UUID = UUID.randomUUID();
+        String suuid = MY_UUID.toString();
+        Log.d("UUID", suuid);
     }
 
     @Override
@@ -51,26 +48,35 @@ public class BT extends Activity {
 
 
     public void Connect_HC(View view) {
-        workerThread=new ConnectThread(BTDevices);
+        Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
+        //Go through all the paired device and find the matched one. Then set the matched device as connection target
+        for (BluetoothDevice device : pairedDevices) {
+            if (device.getName().equals("HC-06")) {
+                mmDevice = device;
+                Log.d("device", mmDevice.toString());
+                break;
+            }
+        }
+
+        //Start Worker Thread since the connecting process is a block call.
+        workerThread = new ConnectThread(mmDevice);
         workerThread.start();
     }
 
     public void onDestroy(View view) {
         super.onDestroy();
-
     }
 
     private class ConnectThread extends Thread {
         private final BluetoothSocket mmSocket;
         private final BluetoothDevice mmDevice;
 
-
         public ConnectThread(BluetoothDevice device) {
             // Use a temporary object that is later assigned to mmSocket,
             // because mmSocket is final
             BluetoothSocket tmp = null;
             mmDevice = device;
-
+            Log.d("Thread", "Start ConnectThread");
 
             // Get a BluetoothSocket to connect with the given BluetoothDevice
             try {
@@ -84,18 +90,19 @@ public class BT extends Activity {
         public void run() {
             // Cancel discovery because it will slow down the connection
             mBluetoothAdapter.cancelDiscovery();
+            Log.d("Thread", "Start Run");
 
             try {
                 // Connect the device through the socket. This will block
                 // until it succeeds or throws an exception
                 mmSocket.connect();
+                Log.d("Thread", "Tried Connect");
             } catch (IOException connectException) {
                 // Unable to connect; close the socket and get out
                 try {
                     mmSocket.close();
                 } catch (IOException closeException) {
                 }
-                return;
             }
 
             // Do work to manage the connection (in a separate thread)
@@ -105,12 +112,12 @@ public class BT extends Activity {
         /**
          * Will cancel an in-progress connection, and close the socket
          */
-        public void cancel() {
+/*        public void cancel() {
             try {
                 mmSocket.close();
             } catch (IOException e) {
             }
-        }
+        }*/
     }
 
 
