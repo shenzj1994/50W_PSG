@@ -65,10 +65,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void test(View view){
-        String BTname;
-        BTname=BA.getName();
-        Log.d("BT", BTname);
-
         Log.d("BT", "test:Now will try to turn on BT ");
         if (!BA.isEnabled()) {
             Intent turnOn = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);

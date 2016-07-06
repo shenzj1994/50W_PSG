@@ -4,10 +4,11 @@ import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.util.Size;
 import android.view.View;
+
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -34,19 +35,21 @@ public class BT extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bt);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
         //Set default BT Adapter
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        if (!mBluetoothAdapter.isEnabled()) {
+            Intent turnOn = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivityForResult(turnOn, 0);
+        }
         //IMPORTANT: This UUID is exclusively for Serial. Do NOT change and make sure it contains lower case ONLY, or the 'fromString' won't work.
         MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb");
         Log.d("UUID", MY_UUID.toString());
+
     }
 
-    public void Connect_HC(View view) {
+    @Override
+    protected void onResume() {
+        super.onResume();
         Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
         //Go through all the paired device and find the matched one. Then set the matched device as connection target
         for (BluetoothDevice device : pairedDevices) {
@@ -56,27 +59,43 @@ public class BT extends Activity {
                 break;
             }
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (mmSocket != null && mmSocket.isConnected()) {
+            try {
+                mmSocket.close();
+                Log.d("UI_Thread", "Disconnected");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            Log.d("UI_Thread", "No Active Connection");
+        }
+    }
+
+    public void Connect_HC(View view) {
         //Start Worker Thread since the connecting process is a block call.
         connectThread = new ConnectThread(mmDevice);
         connectThread.start();
     }
 
     public void SendLB(View view) {
-        try {
-            mmOutStream.write("\n\r".getBytes());
-            Log.d("Serial Write", "Write Successfully");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        send();
     }
 
     public void Disconnect(View view) throws IOException {
-        mmSocket.close();
+        if (mmSocket != null && mmSocket.isConnected()) {
+            mmSocket.close();
+            Log.d("UI_Thread", "Disconnected");
+        } else {
+            Log.d("UI_Thread", "No Active Connection");
+        }
     }
 
     public class ConnectThread extends Thread {
-
-
         public ConnectThread(BluetoothDevice device) {
             // Use a temporary object that is later assigned to mmSocket,
             // because mmSocket is final
@@ -94,6 +113,14 @@ public class BT extends Activity {
         }
 
         public void run() {
+            if (mmSocket != null && mmSocket.isConnected()) {
+                try {
+                    mmSocket.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
             // Cancel discovery because it will slow down the connection
             mBluetoothAdapter.cancelDiscovery();
             try {
@@ -102,16 +129,17 @@ public class BT extends Activity {
                 Log.d("C_Thread", "Connecting");
                 mmSocket.connect();
                 Log.d("C_Thread", "Connected Successfully!");
+                // Do work to manage the connection (in a separate thread)
+                manageConnectedThread = new manageConnectedThread(mmSocket);
+                manageConnectedThread.start();
             } catch (IOException connectException) {
                 // Unable to connect; close the socket and get out
                 try {
                     mmSocket.close();
+                    Log.d("ERROR", "Connection Failed!!!!!!");
                 } catch (IOException closeException) {
                 }
             }
-            // Do work to manage the connection (in a separate thread)
-            manageConnectedThread = new manageConnectedThread(mmSocket);
-            manageConnectedThread.start();
         }
 
         public void cancel() {
@@ -143,12 +171,11 @@ public class BT extends Activity {
         }
 
         public void run() {
-            byte[] buffer = new byte[1024];  // buffer store for the stream
-
+            byte[] buffer = new byte[16];  // buffer store for the stream
             //Always waiting for data
-            while (true) {
+            while (mmSocket.isConnected()) {
                 try {
-                    // Read from the InputStream
+                    // Read from the InputStream.This is a BLOCKING CALL, the thread will wait this call to complete. In other words, it will wait until exception or data is received.
                     mmInStream.read(buffer);
 
                     //Read out first 16 bytes in the buffer, in Hex.Only valid data which starts from 01 will be kept.
@@ -162,12 +189,16 @@ public class BT extends Activity {
                         }
                         Log.d("RECEIVED", hex);
                     }
-
+                    sleep(100);//Small delay to let data fill the buffer
                 } catch (IOException e) {
                     Log.d("E", "IO");
                     break;
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
             }
+
+
         }
 
 
@@ -187,6 +218,18 @@ public class BT extends Activity {
             }
         }
 
+
+    }
+
+    public void send() {
+        if (mmSocket != null && mmSocket.isConnected()) {
+            try {
+                mmOutStream.write("\n\r".getBytes());
+                Log.d("Serial Write", "Write Successfully");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 
     }
 }
