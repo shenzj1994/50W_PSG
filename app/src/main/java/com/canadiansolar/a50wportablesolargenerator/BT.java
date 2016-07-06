@@ -6,6 +6,7 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 
@@ -22,6 +23,9 @@ public class BT extends Activity {
 
     Thread connectThread;
     Thread manageConnectedThread;
+    Thread sendingThread;
+
+    Handler rHandle;
 
     private Set<BluetoothDevice> BTDevices;
     private BluetoothAdapter mBluetoothAdapter;
@@ -83,11 +87,13 @@ public class BT extends Activity {
     }
 
     public void SendLB(View view) {
-        send();
+        sendingThread = new sendingThread();
+        sendingThread.start();
     }
 
     public void Disconnect(View view) throws IOException {
         if (mmSocket != null && mmSocket.isConnected()) {
+            sendingThread.interrupt();
             mmSocket.close();
             Log.d("UI_Thread", "Disconnected");
         } else {
@@ -221,15 +227,19 @@ public class BT extends Activity {
 
     }
 
-    public void send() {
-        if (mmSocket != null && mmSocket.isConnected()) {
-            try {
-                mmOutStream.write("\n\r".getBytes());
-                Log.d("Serial Write", "Write Successfully");
-            } catch (IOException e) {
-                e.printStackTrace();
+    public class sendingThread extends Thread {
+        public sendingThread() {
+            while (mmSocket != null && mmSocket.isConnected()) {
+                try {
+                    mmOutStream.write("\n\r".getBytes());
+                    Log.d("Serial Write", "Write Successfully");
+                    sleep(1000);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }
-
     }
 }
