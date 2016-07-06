@@ -9,51 +9,33 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.canadiansolar.a50wportablesolargenerator.BT">
 
-        <TextView
-            android:id="@+id/label"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Type here:" />
-
-        <EditText
-            android:id="@+id/entry"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/label"
-            android:background="@android:drawable/editbox_background" />
-
-        <Button
-            android:id="@+id/open"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_below="@id/entry"
-            android:layout_marginLeft="10dip"
-            android:text="Open" />
-
-        <Button
-            android:id="@+id/send"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@id/open"
-            android:layout_toLeftOf="@id/open"
-            android:text="Send" />
-
-        <Button
-            android:id="@+id/close"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@id/send"
-            android:layout_toLeftOf="@id/send"
-            android:text="Close" />
-
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Connect_HC-06"
             android:id="@+id/button5"
             android:onClick="Connect_HC"
-            android:layout_below="@+id/open"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Send \\r\\n"
+            android:id="@+id/button6"
+            android:onClick="SendLB"
+            android:layout_below="@+id/button5"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Disconnect"
+            android:id="@+id/button7"
+            android:onClick="Disconnect"
+            android:layout_below="@+id/button6"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 </RelativeLayout>
