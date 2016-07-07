@@ -3,7 +3,6 @@ package com.canadiansolar.a50wportablesolargenerator;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.view.Window;
 
@@ -35,9 +34,5 @@ public class Start extends Activity {
         startActivity(BT_Intent);
     }
 
-    public void jump_to_handler(View view) {
-        Intent intent = new Intent(this, Handler.class);
-        startActivity(intent);
-    }
 
 }

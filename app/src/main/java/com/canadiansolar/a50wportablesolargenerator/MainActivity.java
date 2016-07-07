@@ -3,16 +3,16 @@ package com.canadiansolar.a50wportablesolargenerator;
 
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import static com.canadiansolar.a50wportablesolargenerator.R.id.*;
-import android.util.Log;
-
-import java.util.Random;
+import static com.canadiansolar.a50wportablesolargenerator.R.id.progressBar2;
+import static com.canadiansolar.a50wportablesolargenerator.R.id.tv_c_value;
+import static com.canadiansolar.a50wportablesolargenerator.R.id.tv_p_value;
+import static com.canadiansolar.a50wportablesolargenerator.R.id.tv_v_value;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -64,20 +64,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void test(View view){
-        Log.d("BT", "test:Now will try to turn on BT ");
-        if (!BA.isEnabled()) {
-            Intent turnOn = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivityForResult(turnOn, 0);
-            Log.d("BT","test:BT has been turned on");
-        }
-        else
-        {
-            Log.d("BT","test:BT Already ON");
-        }
 
-
-    }
 }
 
 

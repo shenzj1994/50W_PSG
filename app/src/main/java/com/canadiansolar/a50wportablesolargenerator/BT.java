@@ -1,16 +1,17 @@
 package com.canadiansolar.a50wportablesolargenerator;
 
-import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
-
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,14 +19,12 @@ import java.io.OutputStream;
 import java.util.Set;
 import java.util.UUID;
 
-import static java.lang.Integer.*;
-import static java.lang.String.*;
 
-
-public class BT extends Activity {
+public class BT extends AppCompatActivity {
     public UUID MY_UUID;
     public final String bondedDevice = "HC-06";
-    TextView Voltage, Current, Temperature;
+    TextView Voltage, Current, Temperature, status;
+    Button connectB, disconnectB, refreshB;
 
     Thread connectThread;
     Thread manageConnectedThread;
@@ -33,7 +32,6 @@ public class BT extends Activity {
 
     Handler rHandle;
 
-    private Set<BluetoothDevice> BTDevices;
     private BluetoothAdapter mBluetoothAdapter;
 
     BluetoothSocket mmSocket;
@@ -41,8 +39,7 @@ public class BT extends Activity {
     OutputStream mmOutStream;
     BluetoothDevice mmDevice;
 
-    String voltageStringH;
-    String voltageStringL;
+
     String voltageString;
     String currentString;
     String temperatureString;
@@ -51,10 +48,22 @@ public class BT extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bt);
-        rHandle = new Handler();
-        Temperature = (TextView) findViewById(R.id.temp);
 
+        setContentView(R.layout.activity_bt);
+        setTitle("Bluetooth");
+        rHandle = new Handler();
+
+        Temperature = (TextView) findViewById(R.id.temp);
+        Current = (TextView) findViewById(R.id.C);
+        Voltage = (TextView) findViewById(R.id.V);
+        status = (TextView) findViewById(R.id.status);
+
+        connectB = (Button) findViewById(R.id.connectButton);
+        disconnectB = (Button) findViewById(R.id.disconnectButton);
+        refreshB = (Button) findViewById(R.id.refreshButton);
+
+        disconnectB.setVisibility(View.INVISIBLE);
+        refreshB.setVisibility(View.INVISIBLE);
 
         //Set default BT Adapter
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -76,7 +85,6 @@ public class BT extends Activity {
         for (BluetoothDevice device : pairedDevices) {
             if (device.getName().equals(bondedDevice)) {
                 mmDevice = device;
-                Log.d("device", mmDevice.toString());
                 break;
             }
         }
@@ -85,34 +93,56 @@ public class BT extends Activity {
     @Override
     protected void onPause() {
         super.onPause();
-        if (mmSocket != null && mmSocket.isConnected()) {
-            try {
+
+        try {
+            if (mmSocket != null && mmSocket.isConnected()) {
                 mmSocket.close();
                 Log.d("UI_Thread", "Disconnected");
-            } catch (IOException e) {
-                e.printStackTrace();
+
+                connectB.setVisibility(View.VISIBLE);
+                disconnectB.setVisibility(View.INVISIBLE);
+                refreshB.setVisibility(View.INVISIBLE);
+                status.setText("Disconnected");
+                Voltage.setText("N/A");
+                Current.setText("N/A");
+                Temperature.setText("N/A");
+            } else {
+                Log.d("UI_Thread", "No Active Connection");
             }
-        } else {
-            Log.d("UI_Thread", "No Active Connection");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
     public void Connect(View view) {
+        status.setText("Connecting");
+        status.setTextColor(Color.YELLOW);
         //Start Worker Thread since the connecting process is a block call.
         connectThread = new ConnectThread(mmDevice);
         connectThread.start();
     }
 
     public void SendLB(View view) throws IOException {
-        mmOutStream.write("\n\r".getBytes());
-        Log.d("Serial Write", "Write Successfully");
+
+        if (mmSocket != null && mmSocket.isConnected()) {
+            mmOutStream.write("\n\r".getBytes());
+            Log.d("Serial Write", "Write Successfully");
+        }
     }
 
     public void Disconnect(View view) throws IOException {
         if (mmSocket != null && mmSocket.isConnected()) {
-            //sendingThread.interrupt();
             mmSocket.close();
             Log.d("UI_Thread", "Disconnected");
+
+            connectB.setVisibility(View.VISIBLE);
+            disconnectB.setVisibility(View.INVISIBLE);
+            refreshB.setVisibility(View.INVISIBLE);
+            status.setText("Disconnected");
+            status.setTextColor(Color.GREEN);
+            Voltage.setText("N/A");
+            Current.setText("N/A");
+            Temperature.setText("N/A");
         } else {
             Log.d("UI_Thread", "No Active Connection");
         }
@@ -152,6 +182,21 @@ public class BT extends Activity {
                 Log.d("C_Thread", "Connecting");
                 mmSocket.connect();
                 Log.d("C_Thread", "Connected Successfully!");
+
+                if (mmSocket != null && mmSocket.isConnected()) {
+                    //Change Button Visibility and status TextView
+                    rHandle.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            connectB.setVisibility(View.INVISIBLE);
+                            disconnectB.setVisibility(View.VISIBLE);
+                            refreshB.setVisibility(View.VISIBLE);
+                            status.setText("Connected");
+                            status.setTextColor(Color.CYAN);
+                        }
+                    });
+                }
+
                 // Do work to manage the connection (in a separate thread)
                 manageConnectedThread = new manageConnectedThread(mmSocket);
                 manageConnectedThread.start();
@@ -159,23 +204,28 @@ public class BT extends Activity {
                 // Unable to connect; close the socket and get out
                 try {
                     mmSocket.close();
+
+                    //Change status TextView
+                    rHandle.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            status.setText("Connection Failed");
+                            status.setTextColor(Color.RED);
+                        }
+                    });
+
                     Log.d("ERROR", "Connection Failed!!!!!!");
                 } catch (IOException closeException) {
                 }
             }
         }
 
-        public void cancel() {
-            try {
-                mmSocket.close();
-            } catch (IOException e) {
-            }
-        }
     }
 
     public class manageConnectedThread extends Thread {
-        public manageConnectedThread(BluetoothSocket socket) {
+        public manageConnectedThread(BluetoothSocket socket) throws IOException {
             Log.d("M_Thread", "Manage Thread has Started");
+
             mmSocket = socket;
             InputStream tmpIn = null;
             OutputStream tmpOut = null;
@@ -191,6 +241,10 @@ public class BT extends Activity {
 
             mmInStream = tmpIn;
             mmOutStream = tmpOut;
+
+            mmOutStream.write("\n\r".getBytes());
+
+
         }
 
         public void run() {
@@ -207,32 +261,35 @@ public class BT extends Activity {
                         if (buffer[0] != 1) {
                             break;
                         }
-                        String hex = Integer.toHexString(buffer[index] & 0xFF);
+//                       Code below are for test receiving only.
+/*                        String hex = Integer.toHexString(buffer[index] & 0xFF);
                         if (hex.length() == 1) {
                             hex = '0' + hex;
                         }
-                        Log.d("RECEIVED", hex);
+                        Log.d("RECEIVED", hex);*/
+
+//                      Analyze the data once all 16 numbers are received.
+                        if (index == 15) {
+                            voltageString = Double.toString((((buffer[1] & 0xFF) * 255) + (buffer[2] & 0xFF)) / 100.0);
+                            Log.d("VOLTAGE", voltageString);
+                            currentString = Double.toString((((buffer[3] & 0xFF) * 255) + (buffer[4] & 0xFF)) / 100.0);
+                            Log.d("CURRENT", currentString);
+                            temperatureString = Integer.toString(buffer[11]);
+                            Log.d("TEMPERATURE", temperatureString);
+
+//                      Update UI.
+                            rHandle.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Voltage.setText(voltageString);
+                                    Current.setText(currentString);
+                                    Temperature.setText(temperatureString);
+                                }
+                            });
+
+                        }
                     }
-
-                    sleep(100);//Small delay to let data fill the buffer
-//                    rHandle.post(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                        Temperature.setText(Byte.toString(buffer[10]));
-//                        }
-//                    });
-
-
-                    voltageString = Integer.toString(((buffer[1] & 0xFF) * 255) + (buffer[2] & 0xFF));
-
-                    currentString = Integer.toString(((buffer[3] & 0xFF) * 255) + (buffer[4] & 0xFF));
-
-                    temperatureString = Integer.toString(buffer[11]);
-
-                    Log.d("TEMPERATURE", temperatureString);
-                    Log.d("VOLTAGE", voltageString);
-                    Log.d("CURRENT", currentString);
-
+                    sleep(200);
                 } catch (IOException e) {
                     //Log.d("E", "IO");
                     break;

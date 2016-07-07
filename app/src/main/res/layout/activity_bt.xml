@@ -12,8 +12,8 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Connect_HC-06"
-            android:id="@+id/button5"
+            android:text="Connect"
+            android:id="@+id/connectButton"
             android:onClick="Connect"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
@@ -22,10 +22,10 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Send \\r\\n"
-            android:id="@+id/button6"
+            android:text="Refresh"
+            android:id="@+id/refreshButton"
             android:onClick="SendLB"
-            android:layout_below="@+id/button5"
+            android:layout_below="@+id/textClock2"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
 
@@ -33,39 +33,103 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Disconnect"
-            android:id="@+id/button7"
+            android:id="@+id/disconnectButton"
             android:onClick="Disconnect"
-            android:layout_below="@+id/button6"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:visibility="visible"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Voltage"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="N/A"
             android:id="@+id/V"
-            android:layout_below="@+id/button7"
+            android:layout_below="@+id/textView6"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Current"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="N/A"
             android:id="@+id/C"
+            android:layout_below="@+id/textView8"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="N/A"
+            android:id="@+id/temp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/textView9" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Voltage (V)"
+            android:id="@+id/textView6"
+            android:layout_below="@+id/connectButton"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Current (A)"
+            android:id="@+id/textView8"
             android:layout_below="@+id/V"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Temperature"
-            android:id="@+id/temp"
-            android:layout_below="@+id/C"
+            android:text="Temperature (°C)"
+            android:id="@+id/textView9"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/C"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Time"
+            android:id="@+id/textView10"
+            android:layout_below="@+id/temp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:textStyle="bold" />
+
+        <TextClock
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textClock2"
+            android:layout_below="@+id/textView10"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            tools:targetApi="jelly_bean_mr1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:id="@+id/status"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:text="Press &quot;Connect&quot;" />
+
 </RelativeLayout>
