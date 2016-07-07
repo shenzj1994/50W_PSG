@@ -103,6 +103,7 @@ public class BT extends AppCompatActivity {
                 disconnectB.setVisibility(View.INVISIBLE);
                 refreshB.setVisibility(View.INVISIBLE);
                 status.setText("Disconnected");
+                status.setTextColor(Color.GREEN);
                 Voltage.setText("N/A");
                 Current.setText("N/A");
                 Temperature.setText("N/A");
@@ -225,6 +226,8 @@ public class BT extends AppCompatActivity {
     public class manageConnectedThread extends Thread {
         public manageConnectedThread(BluetoothSocket socket) throws IOException {
             Log.d("M_Thread", "Manage Thread has Started");
+            sendingThread = new sendingThread();
+            sendingThread.start();
 
             mmSocket = socket;
             InputStream tmpIn = null;
@@ -290,6 +293,7 @@ public class BT extends AppCompatActivity {
                         }
                     }
                     sleep(200);
+
                 } catch (IOException e) {
                     //Log.d("E", "IO");
                     break;
@@ -310,13 +314,6 @@ public class BT extends AppCompatActivity {
             }
         }
 
-        /* Call this from the main activity to shutdown the connection */
-        public void cancel() {
-            try {
-                mmSocket.close();
-            } catch (IOException e) {
-            }
-        }
 
 
     }
