@@ -20,7 +20,6 @@ public class Start extends Activity {
             @Override
             public void run() {
                 jump();
-
             }
         }, 3000);*/
     }
@@ -34,7 +33,11 @@ public class Start extends Activity {
     public void jump_to_bt(View view){
         Intent BT_Intent=new Intent(this,BT.class);
         startActivity(BT_Intent);
+    }
 
+    public void jump_to_handler(View view) {
+        Intent intent = new Intent(this, Handler.class);
+        startActivity(intent);
     }
 
 }

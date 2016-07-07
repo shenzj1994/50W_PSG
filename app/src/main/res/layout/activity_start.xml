@@ -36,8 +36,17 @@
         android:text="BT"
         android:id="@+id/button4"
         android:onClick="jump_to_bt"
-        android:layout_alignBottom="@+id/button3"
-        android:layout_alignRight="@+id/imageView"
-        android:layout_alignEnd="@+id/imageView" />
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/button3"
+        android:layout_toEndOf="@+id/button3" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Handler"
+        android:id="@+id/button8"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/button4"
+        android:layout_toEndOf="@+id/button4" />
 
 </RelativeLayout>

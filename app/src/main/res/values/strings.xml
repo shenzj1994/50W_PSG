@@ -4,5 +4,6 @@
 
     <string name="power_min">0</string>
     <string name="power_max">50</string>
+    <string name="title_activity_handler">Handler</string>
 
 </resources>

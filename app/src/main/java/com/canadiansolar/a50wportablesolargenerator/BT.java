@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 
 import java.io.IOException;
@@ -17,9 +18,14 @@ import java.io.OutputStream;
 import java.util.Set;
 import java.util.UUID;
 
+import static java.lang.Integer.*;
+import static java.lang.String.*;
+
 
 public class BT extends Activity {
     public UUID MY_UUID;
+    public final String bondedDevice = "HC-06";
+    TextView Voltage, Current, Temperature;
 
     Thread connectThread;
     Thread manageConnectedThread;
@@ -35,10 +41,21 @@ public class BT extends Activity {
     OutputStream mmOutStream;
     BluetoothDevice mmDevice;
 
+    String voltageStringH;
+    String voltageStringL;
+    String voltageString;
+    String currentString;
+    String temperatureString;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bt);
+        rHandle = new Handler();
+        Temperature = (TextView) findViewById(R.id.temp);
+
+
         //Set default BT Adapter
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if (!mBluetoothAdapter.isEnabled()) {
@@ -57,7 +74,7 @@ public class BT extends Activity {
         Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
         //Go through all the paired device and find the matched one. Then set the matched device as connection target
         for (BluetoothDevice device : pairedDevices) {
-            if (device.getName().equals("HC-06")) {
+            if (device.getName().equals(bondedDevice)) {
                 mmDevice = device;
                 Log.d("device", mmDevice.toString());
                 break;
@@ -80,20 +97,20 @@ public class BT extends Activity {
         }
     }
 
-    public void Connect_HC(View view) {
+    public void Connect(View view) {
         //Start Worker Thread since the connecting process is a block call.
         connectThread = new ConnectThread(mmDevice);
         connectThread.start();
     }
 
-    public void SendLB(View view) {
-        sendingThread = new sendingThread();
-        sendingThread.start();
+    public void SendLB(View view) throws IOException {
+        mmOutStream.write("\n\r".getBytes());
+        Log.d("Serial Write", "Write Successfully");
     }
 
     public void Disconnect(View view) throws IOException {
         if (mmSocket != null && mmSocket.isConnected()) {
-            sendingThread.interrupt();
+            //sendingThread.interrupt();
             mmSocket.close();
             Log.d("UI_Thread", "Disconnected");
         } else {
@@ -177,7 +194,8 @@ public class BT extends Activity {
         }
 
         public void run() {
-            byte[] buffer = new byte[16];  // buffer store for the stream
+            final byte[] buffer = new byte[16];  // buffer store for the stream
+            int[] data = new int[16];
             //Always waiting for data
             while (mmSocket.isConnected()) {
                 try {
@@ -195,9 +213,28 @@ public class BT extends Activity {
                         }
                         Log.d("RECEIVED", hex);
                     }
+
                     sleep(100);//Small delay to let data fill the buffer
+//                    rHandle.post(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                        Temperature.setText(Byte.toString(buffer[10]));
+//                        }
+//                    });
+
+
+                    voltageString = Integer.toString(((buffer[1] & 0xFF) * 255) + (buffer[2] & 0xFF));
+
+                    currentString = Integer.toString(((buffer[3] & 0xFF) * 255) + (buffer[4] & 0xFF));
+
+                    temperatureString = Integer.toString(buffer[11]);
+
+                    Log.d("TEMPERATURE", temperatureString);
+                    Log.d("VOLTAGE", voltageString);
+                    Log.d("CURRENT", currentString);
+
                 } catch (IOException e) {
-                    Log.d("E", "IO");
+                    //Log.d("E", "IO");
                     break;
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -228,7 +265,10 @@ public class BT extends Activity {
     }
 
     public class sendingThread extends Thread {
-        public sendingThread() {
+        public void sendingThread() {
+        }
+
+        public void run() {
             while (mmSocket != null && mmSocket.isConnected()) {
                 try {
                     mmOutStream.write("\n\r".getBytes());
