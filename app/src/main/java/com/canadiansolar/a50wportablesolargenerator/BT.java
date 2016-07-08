@@ -93,23 +93,8 @@ public class BT extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-
         try {
-            if (mmSocket != null && mmSocket.isConnected()) {
-                mmSocket.close();
-                Log.d("UI_Thread", "Disconnected");
-
-                connectB.setVisibility(View.VISIBLE);
-                disconnectB.setVisibility(View.INVISIBLE);
-                refreshB.setVisibility(View.INVISIBLE);
-                status.setText("Disconnected");
-                status.setTextColor(Color.GREEN);
-                Voltage.setText("N/A");
-                Current.setText("N/A");
-                Temperature.setText("N/A");
-            } else {
-                Log.d("UI_Thread", "No Active Connection");
-            }
+            DCT();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -132,21 +117,7 @@ public class BT extends AppCompatActivity {
     }
 
     public void Disconnect(View view) throws IOException {
-        if (mmSocket != null && mmSocket.isConnected()) {
-            mmSocket.close();
-            Log.d("UI_Thread", "Disconnected");
-
-            connectB.setVisibility(View.VISIBLE);
-            disconnectB.setVisibility(View.INVISIBLE);
-            refreshB.setVisibility(View.INVISIBLE);
-            status.setText("Disconnected");
-            status.setTextColor(Color.GREEN);
-            Voltage.setText("N/A");
-            Current.setText("N/A");
-            Temperature.setText("N/A");
-        } else {
-            Log.d("UI_Thread", "No Active Connection");
-        }
+        DCT();
     }
 
     public class ConnectThread extends Thread {
@@ -334,6 +305,24 @@ public class BT extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
+        }
+    }
+
+    public void DCT() throws IOException {
+        if (mmSocket != null && mmSocket.isConnected()) {
+            mmSocket.close();
+            Log.d("UI_Thread", "Disconnected");
+
+            connectB.setVisibility(View.VISIBLE);
+            disconnectB.setVisibility(View.INVISIBLE);
+            refreshB.setVisibility(View.INVISIBLE);
+            status.setText("Disconnected");
+            status.setTextColor(Color.GREEN);
+            Voltage.setText("N/A");
+            Current.setText("N/A");
+            Temperature.setText("N/A");
+        } else {
+            Log.d("UI_Thread", "No Active Connection");
         }
     }
 }

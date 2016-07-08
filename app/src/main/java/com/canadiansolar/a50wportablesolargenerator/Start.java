@@ -23,11 +23,11 @@ public class Start extends Activity {
         }, 3000);*/
     }
 
-    //Jump to main activity
-    public void jump_to_main(View view){
-        Intent intent =new Intent(getApplicationContext(),MainActivity.class);
-        startActivity(intent);
-    }
+//    //Jump to main activity
+//    public void jump_to_main(View view){
+//        Intent intent =new Intent(getApplicationContext(),MainActivity.class);
+//        startActivity(intent);
+//    }
 
     public void jump_to_bt(View view){
         Intent BT_Intent=new Intent(this,BT.class);
