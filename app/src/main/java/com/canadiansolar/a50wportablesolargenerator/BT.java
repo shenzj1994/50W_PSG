@@ -21,28 +21,28 @@ import java.util.UUID;
 
 
 public class BT extends AppCompatActivity {
-    public UUID MY_UUID;
-    public final String bondedDevice = "HC-06";
-    TextView Voltage, Current, Temperature, status;
-    Button connectB, disconnectB, refreshB;
+    private UUID MY_UUID;
+    private TextView Voltage;
+    private TextView Current;
+    private TextView Temperature;
+    private TextView status;
+    private Button connectB;
+    private Button disconnectB;
+    private Button refreshB;
 
-    Thread connectThread;
-    Thread manageConnectedThread;
-    Thread sendingThread;
-
-    Handler rHandle;
+    private Handler rHandle;
 
     private BluetoothAdapter mBluetoothAdapter;
 
-    BluetoothSocket mmSocket;
-    InputStream mmInStream;
-    OutputStream mmOutStream;
-    BluetoothDevice mmDevice;
+    private BluetoothSocket mmSocket;
+    private InputStream mmInStream;
+    private OutputStream mmOutStream;
+    private BluetoothDevice mmDevice;
 
 
-    String voltageString;
-    String currentString;
-    String temperatureString;
+    private String voltageString;
+    private String currentString;
+    private String temperatureString;
 
 
     @Override
@@ -83,6 +83,7 @@ public class BT extends AppCompatActivity {
         Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
         //Go through all the paired device and find the matched one. Then set the matched device as connection target
         for (BluetoothDevice device : pairedDevices) {
+            String bondedDevice = "HC-06";
             if (device.getName().equals(bondedDevice)) {
                 mmDevice = device;
                 break;
@@ -100,15 +101,15 @@ public class BT extends AppCompatActivity {
         }
     }
 
-    public void Connect(View view) {
+    public void Connect() {
         status.setText("Connecting");
         status.setTextColor(Color.YELLOW);
         //Start Worker Thread since the connecting process is a block call.
-        connectThread = new ConnectThread(mmDevice);
+        Thread connectThread = new ConnectThread(mmDevice);
         connectThread.start();
     }
 
-    public void SendLB(View view) throws IOException {
+    public void SendLB() throws IOException {
 
         if (mmSocket != null && mmSocket.isConnected()) {
             mmOutStream.write("\n\r".getBytes());
@@ -116,7 +117,7 @@ public class BT extends AppCompatActivity {
         }
     }
 
-    public void Disconnect(View view) throws IOException {
+    public void Disconnect() throws IOException {
         DCT();
     }
 
@@ -132,7 +133,7 @@ public class BT extends AppCompatActivity {
             try {
                 // MY_UUID is the app's UUID string, also used by the server code
                 tmp = device.createRfcommSocketToServiceRecord(MY_UUID);
-            } catch (IOException e) {
+            } catch (IOException ignored) {
             }
             mmSocket = tmp;
         }
@@ -170,7 +171,7 @@ public class BT extends AppCompatActivity {
                 }
 
                 // Do work to manage the connection (in a separate thread)
-                manageConnectedThread = new manageConnectedThread(mmSocket);
+                Thread manageConnectedThread = new manageConnectedThread(mmSocket);
                 manageConnectedThread.start();
             } catch (IOException connectException) {
                 // Unable to connect; close the socket and get out
@@ -187,7 +188,7 @@ public class BT extends AppCompatActivity {
                     });
 
                     Log.d("ERROR", "Connection Failed!!!!!!");
-                } catch (IOException closeException) {
+                } catch (IOException ignored) {
                 }
             }
         }
@@ -197,7 +198,7 @@ public class BT extends AppCompatActivity {
     public class manageConnectedThread extends Thread {
         public manageConnectedThread(BluetoothSocket socket) throws IOException {
             Log.d("M_Thread", "Manage Thread has Started");
-            sendingThread = new sendingThread();
+            Thread sendingThread = new sendingThread();
             sendingThread.start();
 
             mmSocket = socket;
@@ -209,7 +210,7 @@ public class BT extends AppCompatActivity {
             try {
                 tmpIn = socket.getInputStream();
                 tmpOut = socket.getOutputStream();
-            } catch (IOException e) {
+            } catch (IOException ignored) {
 
             }
 
@@ -223,7 +224,7 @@ public class BT extends AppCompatActivity {
 
         public void run() {
             final byte[] buffer = new byte[16];  // buffer store for the stream
-            int[] data = new int[16];
+
             //Always waiting for data
             while (mmSocket.isConnected()) {
                 try {
@@ -277,21 +278,12 @@ public class BT extends AppCompatActivity {
         }
 
 
-        /* Call this from the main activity to send data to the remote device */
-        public void write(byte[] bytes) {
-            try {
-                mmOutStream.write(bytes);
-            } catch (IOException e) {
-            }
-        }
-
-
-
     }
 
-    public class sendingThread extends Thread {
-        public void sendingThread() {
-        }
+    private class sendingThread extends Thread {
+//        public void sendingThread() {
+//
+//        }
 
         public void run() {
             while (mmSocket != null && mmSocket.isConnected()) {
@@ -299,16 +291,14 @@ public class BT extends AppCompatActivity {
                     mmOutStream.write("\n\r".getBytes());
                     Log.d("Serial Write", "Write Successfully");
                     sleep(1000);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
+                } catch (IOException | InterruptedException e) {
                     e.printStackTrace();
                 }
             }
         }
     }
 
-    public void DCT() throws IOException {
+    private void DCT() throws IOException {
         if (mmSocket != null && mmSocket.isConnected()) {
             mmSocket.close();
             Log.d("UI_Thread", "Disconnected");
