@@ -1,5 +1,6 @@
 package com.canadiansolar.a50wportablesolargenerator;
 
+import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
@@ -22,13 +23,13 @@ import java.util.UUID;
 
 public class BT extends AppCompatActivity {
     private UUID MY_UUID;
-    private TextView Voltage;
-    private TextView Current;
-    private TextView Temperature;
-    private TextView status;
-    private Button connectB;
-    private Button disconnectB;
-    private Button refreshB;
+    TextView Voltage;
+    TextView Current;
+    TextView Temperature;
+    TextView status;
+    Button connectB;
+    Button disconnectB;
+    Button refreshB;
 
     private Handler rHandle;
 
@@ -43,6 +44,7 @@ public class BT extends AppCompatActivity {
     private String voltageString;
     private String currentString;
     private String temperatureString;
+    private static final String bondedDevice = "HMSoft";
 
 
     @Override
@@ -83,7 +85,6 @@ public class BT extends AppCompatActivity {
         Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
         //Go through all the paired device and find the matched one. Then set the matched device as connection target
         for (BluetoothDevice device : pairedDevices) {
-            String bondedDevice = "HC-06";
             if (device.getName().equals(bondedDevice)) {
                 mmDevice = device;
                 break;
@@ -95,21 +96,22 @@ public class BT extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         try {
+//            Disconnect on pause to prevent issues.
             DCT();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void Connect() {
+    public void Connect(View view) {
         status.setText("Connecting");
-        status.setTextColor(Color.YELLOW);
+        status.setTextColor(Color.GREEN);
         //Start Worker Thread since the connecting process is a block call.
         Thread connectThread = new ConnectThread(mmDevice);
         connectThread.start();
     }
 
-    public void SendLB() throws IOException {
+    public void SendLB(View view) throws IOException {
 
         if (mmSocket != null && mmSocket.isConnected()) {
             mmOutStream.write("\n\r".getBytes());
@@ -117,7 +119,7 @@ public class BT extends AppCompatActivity {
         }
     }
 
-    public void Disconnect() throws IOException {
+    public void Disconnect(View view) throws IOException {
         DCT();
     }
 
@@ -159,6 +161,7 @@ public class BT extends AppCompatActivity {
                 if (mmSocket != null && mmSocket.isConnected()) {
                     //Change Button Visibility and status TextView
                     rHandle.post(new Runnable() {
+                        @SuppressLint("SetTextI18n")
                         @Override
                         public void run() {
                             connectB.setVisibility(View.INVISIBLE);
@@ -180,6 +183,7 @@ public class BT extends AppCompatActivity {
 
                     //Change status TextView
                     rHandle.post(new Runnable() {
+                        @SuppressLint("SetTextI18n")
                         @Override
                         public void run() {
                             status.setText("Connection Failed");
@@ -233,23 +237,23 @@ public class BT extends AppCompatActivity {
 
                     //Read out first 16 bytes in the buffer, in Hex.Only valid data which starts from 01 will be kept.
                     for (int index = 0; index < 16; index++) {
-                        if (buffer[0] != 1) {
+                        if (buffer[1] != 1) {
                             break;
                         }
 //                       Code below are for test receiving only.
-/*                        String hex = Integer.toHexString(buffer[index] & 0xFF);
+                        String hex = Integer.toHexString(buffer[index] & 0xFF);
                         if (hex.length() == 1) {
                             hex = '0' + hex;
                         }
-                        Log.d("RECEIVED", hex);*/
+                        Log.d("RECEIVED", hex);
 
 //                      Analyze the data once all 16 numbers are received.
                         if (index == 15) {
-                            voltageString = Double.toString((((buffer[1] & 0xFF) * 255) + (buffer[2] & 0xFF)) / 100.0);
+                            voltageString = Double.toString((((buffer[2] & 0xFF) * 255) + (buffer[3] & 0xFF)) / 100.0);
                             Log.d("VOLTAGE", voltageString);
-                            currentString = Double.toString((((buffer[3] & 0xFF) * 255) + (buffer[4] & 0xFF)) / 100.0);
+                            currentString = Double.toString((((buffer[4] & 0xFF) * 255) + (buffer[5] & 0xFF)) / 100.0);
                             Log.d("CURRENT", currentString);
-                            temperatureString = Integer.toString(buffer[11]);
+                            temperatureString = Integer.toString(buffer[12]);
                             Log.d("TEMPERATURE", temperatureString);
 
 //                      Update UI.
@@ -281,9 +285,6 @@ public class BT extends AppCompatActivity {
     }
 
     private class sendingThread extends Thread {
-//        public void sendingThread() {
-//
-//        }
 
         public void run() {
             while (mmSocket != null && mmSocket.isConnected()) {
@@ -307,7 +308,7 @@ public class BT extends AppCompatActivity {
             disconnectB.setVisibility(View.INVISIBLE);
             refreshB.setVisibility(View.INVISIBLE);
             status.setText("Disconnected");
-            status.setTextColor(Color.GREEN);
+            status.setTextColor(Color.YELLOW);
             Voltage.setText("N/A");
             Current.setText("N/A");
             Temperature.setText("N/A");

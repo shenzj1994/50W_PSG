@@ -29,9 +29,8 @@
             android:name=".MainActivity"
             android:theme="@style/Base.V21.Theme.AppCompat.Light" />
 
-        <activity
-            android:name=".BT"
-            android:theme="@style/Base.V21.Theme.AppCompat.Light" />
+        <activity android:name=".BT" />
+
 
     </application>
 
