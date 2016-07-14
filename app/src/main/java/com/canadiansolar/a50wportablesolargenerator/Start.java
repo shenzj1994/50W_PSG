@@ -34,5 +34,10 @@ public class Start extends Activity {
         startActivity(BT_Intent);
     }
 
+    public void jump_to_ad(View view) {
+        Intent Ad_Intent = new Intent(this, AdActivity.class);
+        startActivity(Ad_Intent);
+    }
+
 
 }
