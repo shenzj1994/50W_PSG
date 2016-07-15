@@ -29,7 +29,7 @@ public class BT extends AppCompatActivity {
     TextView status;
     Button connectB;
     Button disconnectB;
-    Button refreshB;
+
 
     private Handler rHandle;
 
@@ -62,10 +62,10 @@ public class BT extends AppCompatActivity {
 
         connectB = (Button) findViewById(R.id.connectButton);
         disconnectB = (Button) findViewById(R.id.disconnectButton);
-        refreshB = (Button) findViewById(R.id.refreshButton);
+
 
         disconnectB.setVisibility(View.INVISIBLE);
-        refreshB.setVisibility(View.INVISIBLE);
+
 
         //Set default BT Adapter
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -101,6 +101,11 @@ public class BT extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void OpenWebBrowser(View view) {
+        Intent intent = new Intent(this, Web.class);
+        startActivity(intent);
     }
 
     public void Connect(View view) {
@@ -166,7 +171,7 @@ public class BT extends AppCompatActivity {
                         public void run() {
                             connectB.setVisibility(View.INVISIBLE);
                             disconnectB.setVisibility(View.VISIBLE);
-                            refreshB.setVisibility(View.VISIBLE);
+
                             status.setText("Connected");
                             status.setTextColor(Color.CYAN);
                         }
@@ -306,7 +311,6 @@ public class BT extends AppCompatActivity {
 
             connectB.setVisibility(View.VISIBLE);
             disconnectB.setVisibility(View.INVISIBLE);
-            refreshB.setVisibility(View.INVISIBLE);
             status.setText("Disconnected");
             status.setTextColor(Color.YELLOW);
             Voltage.setText("N/A");

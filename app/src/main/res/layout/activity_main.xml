@@ -50,7 +50,8 @@
         android:layout_below="@+id/textView4"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        tools:targetApi="jelly_bean_mr1" />
 
     <TextView
         android:layout_width="wrap_content"

@@ -12,7 +12,7 @@
         android:icon="@drawable/logo"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/Base.V21.Theme.AppCompat.Light">
         <activity
             android:name=".Start"
             android:label="@string/app_name">
@@ -28,8 +28,10 @@
         <activity
             android:name=".MainActivity"
             android:theme="@style/Base.V21.Theme.AppCompat.Light" />
-        <activity android:name=".BT" />
-        <activity android:name=".AdActivity"></activity>
+        <activity android:name=".BT"
+            />
+        <activity android:name=".AdActivity"
+            android:theme="@style/Base.V21.Theme.AppCompat.Light"/>
 
     </application>
 
