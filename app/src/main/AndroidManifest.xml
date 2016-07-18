@@ -25,9 +25,6 @@
         <activity
             android:name=".Web"
             android:theme="@style/Base.Theme.AppCompat.Light" />
-        <activity
-            android:name=".MainActivity"
-            android:theme="@style/Base.Theme.AppCompat.Light" />
         <activity android:name=".BT"
             />
         <activity android:name=".AdActivity"

@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -50,9 +51,8 @@ public class BT extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_bt);
-        setTitle("Bluetooth");
+
         rHandle = new Handler();
 
         Temperature = (TextView) findViewById(R.id.temp);
@@ -77,6 +77,7 @@ public class BT extends AppCompatActivity {
         MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb");
         Log.d("UUID", MY_UUID.toString());
 
+        Toast.makeText(getApplicationContext(),"Click on logo to open manual",Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -116,13 +117,13 @@ public class BT extends AppCompatActivity {
         connectThread.start();
     }
 
-    public void SendLB(View view) throws IOException {
+/*    public void SendLB(View view) throws IOException {
 
         if (mmSocket != null && mmSocket.isConnected()) {
             mmOutStream.write("\n\r".getBytes());
             Log.d("Serial Write", "Write Successfully");
         }
-    }
+    }*/
 
     public void Disconnect(View view) throws IOException {
         DCT();

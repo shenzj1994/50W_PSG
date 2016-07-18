@@ -20,7 +20,7 @@ public class Web extends AppCompatActivity {
         WebSettings webSettings = wv.getSettings();
         webSettings.setJavaScriptEnabled(true);
         wv.setWebViewClient(new WebViewClient());
-        wv.loadUrl("http://docs.google.com/gview?embedded=true&url="+"http://unpackfuture.com/50 W Spec.pdf");
+        wv.loadUrl("http://docs.google.com/gview?embedded=true&url="+"http://d.unpackfuture.com/50 W Spec.pdf");
     }
 
 

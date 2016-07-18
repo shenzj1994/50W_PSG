@@ -118,8 +118,8 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:id="@+id/status"
-            android:text="Press &quot;Connect&quot;"
-            android:layout_below="@+id/textClock2"
+            android:text="Disconnected"
+            android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true" />
 
         <Button
@@ -130,6 +130,18 @@
             android:onClick="OpenWebBrowser"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignParentEnd="true"
+            android:visibility="invisible" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView2"
+            android:src="@drawable/logo"
+            android:onClick="OpenWebBrowser"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/textClock2"
+            android:layout_above="@+id/status" />
 
 </RelativeLayout>
