@@ -21,21 +21,13 @@
         android:layout_above="@+id/button4" />
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Enter"
         android:id="@+id/button4"
         android:onClick="jump_to_bt"
         android:layout_alignParentBottom="true" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Ad"
-        android:id="@+id/button2"
-        android:onClick="jump_to_ad"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+
 
 </RelativeLayout>

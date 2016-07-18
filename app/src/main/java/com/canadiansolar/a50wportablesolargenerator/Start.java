@@ -13,6 +13,7 @@ public class Start extends Activity {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_start);
+
 /*        // Delay for some time
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -28,11 +29,5 @@ public class Start extends Activity {
         Intent BT_Intent=new Intent(this,BT.class);
         startActivity(BT_Intent);
     }
-
-    public void jump_to_ad(View view) {
-        Intent Ad_Intent = new Intent(this, AdActivity.class);
-        startActivity(Ad_Intent);
-    }
-
 
 }

@@ -28,8 +28,8 @@ public class BT extends AppCompatActivity {
     TextView Current;
     TextView Temperature;
     TextView status;
-    Button connectB;
-    Button disconnectB;
+    Button connectButton;
+    Button disconnectButton;
 
 
     private Handler rHandle;
@@ -60,11 +60,11 @@ public class BT extends AppCompatActivity {
         Voltage = (TextView) findViewById(R.id.V);
         status = (TextView) findViewById(R.id.status);
 
-        connectB = (Button) findViewById(R.id.connectButton);
-        disconnectB = (Button) findViewById(R.id.disconnectButton);
+        connectButton = (Button) findViewById(R.id.connectButton);
+        disconnectButton = (Button) findViewById(R.id.disconnectButton);
 
 
-        disconnectB.setVisibility(View.INVISIBLE);
+        disconnectButton.setVisibility(View.INVISIBLE);
 
 
         //Set default BT Adapter
@@ -98,23 +98,29 @@ public class BT extends AppCompatActivity {
         super.onPause();
         try {
 //            Disconnect on pause to prevent issues.
-            DCT();
+            BTDisconnect();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void OpenWebBrowser(View view) {
+    public void openManual(View view) {
         Intent intent = new Intent(this, Web.class);
         startActivity(intent);
     }
 
-    public void Connect(View view) {
-        status.setText("Connecting");
-        status.setTextColor(Color.GREEN);
-        //Start Worker Thread since the connecting process is a block call.
-        Thread connectThread = new ConnectThread(mmDevice);
-        connectThread.start();
+    public void clickConnect(View view) {
+        if(mmDevice==null){
+            Toast.makeText(getApplicationContext(),"Cannot find paired device",Toast.LENGTH_SHORT).show();
+
+        }
+        else {
+            status.setText("Connecting");
+            status.setTextColor(Color.GREEN);
+            //Start Worker Thread since the connecting process is a block call.
+            Thread connectThread = new ConnectThread(mmDevice);
+            connectThread.start();
+        }
     }
 
 /*    public void SendLB(View view) throws IOException {
@@ -125,8 +131,8 @@ public class BT extends AppCompatActivity {
         }
     }*/
 
-    public void Disconnect(View view) throws IOException {
-        DCT();
+    public void clickDisconnect(View view) throws IOException {
+        BTDisconnect();
     }
 
     public class ConnectThread extends Thread {
@@ -170,8 +176,8 @@ public class BT extends AppCompatActivity {
                         @SuppressLint("SetTextI18n")
                         @Override
                         public void run() {
-                            connectB.setVisibility(View.INVISIBLE);
-                            disconnectB.setVisibility(View.VISIBLE);
+                            connectButton.setVisibility(View.INVISIBLE);
+                            disconnectButton.setVisibility(View.VISIBLE);
 
                             status.setText("Connected");
                             status.setTextColor(Color.CYAN);
@@ -305,13 +311,13 @@ public class BT extends AppCompatActivity {
         }
     }
 
-    private void DCT() throws IOException {
+    private void BTDisconnect() throws IOException {
         if (mmSocket != null && mmSocket.isConnected()) {
             mmSocket.close();
             Log.d("UI_Thread", "Disconnected");
 
-            connectB.setVisibility(View.VISIBLE);
-            disconnectB.setVisibility(View.INVISIBLE);
+            connectButton.setVisibility(View.VISIBLE);
+            disconnectButton.setVisibility(View.INVISIBLE);
             status.setText("Disconnected");
             status.setTextColor(Color.YELLOW);
             Voltage.setText("N/A");
