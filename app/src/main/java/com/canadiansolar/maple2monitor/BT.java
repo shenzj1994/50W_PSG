@@ -1,4 +1,4 @@
-package com.canadiansolar.a50wportablesolargenerator;
+package com.canadiansolar.maple2monitor;
 
 import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
@@ -77,7 +77,7 @@ public class BT extends AppCompatActivity {
         MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb");
         Log.d("UUID", MY_UUID.toString());
 
-        Toast.makeText(getApplicationContext(),"Click on logo to open manual",Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(),"Click on banner to open manual",Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -118,25 +118,17 @@ public class BT extends AppCompatActivity {
             status.setText("Connecting");
             status.setTextColor(Color.GREEN);
             //Start Worker Thread since the connecting process is a block call.
-            Thread connectThread = new ConnectThread(mmDevice);
+            Thread connectThread = new connectThread(mmDevice);
             connectThread.start();
         }
     }
-
-/*    public void SendLB(View view) throws IOException {
-
-        if (mmSocket != null && mmSocket.isConnected()) {
-            mmOutStream.write("\n\r".getBytes());
-            Log.d("Serial Write", "Write Successfully");
-        }
-    }*/
 
     public void clickDisconnect(View view) throws IOException {
         BTDisconnect();
     }
 
-    public class ConnectThread extends Thread {
-        public ConnectThread(BluetoothDevice device) {
+    public class connectThread extends Thread {
+        public connectThread(BluetoothDevice device) {
             // Use a temporary object that is later assigned to mmSocket,
             // because mmSocket is final
             BluetoothSocket tmp = null;
@@ -186,7 +178,7 @@ public class BT extends AppCompatActivity {
                 }
 
                 // Do work to manage the connection (in a separate thread)
-                Thread manageConnectedThread = new manageConnectedThread(mmSocket);
+                Thread manageConnectedThread = new manageThread(mmSocket);
                 manageConnectedThread.start();
             } catch (IOException connectException) {
                 // Unable to connect; close the socket and get out
@@ -211,8 +203,8 @@ public class BT extends AppCompatActivity {
 
     }
 
-    public class manageConnectedThread extends Thread {
-        public manageConnectedThread(BluetoothSocket socket) throws IOException {
+    public class manageThread extends Thread {
+        public manageThread(BluetoothSocket socket) throws IOException {
             Log.d("M_Thread", "Manage Thread has Started");
             Thread sendingThread = new sendingThread();
             sendingThread.start();

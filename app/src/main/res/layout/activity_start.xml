@@ -7,18 +7,19 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.canadiansolar.a50wportablesolargenerator.Start">
+    tools:context="com.canadiansolar.maple2monitor.Start">
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/imageView"
-        android:src="@drawable/csme_banner"
-        android:scaleType="centerInside"
+        android:src="@drawable/white_banner"
+        android:scaleType="fitCenter"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_above="@+id/button4" />
+        android:layout_above="@+id/button4"
+        android:cropToPadding="false" />
 
     <Button
         android:layout_width="match_parent"
@@ -27,7 +28,6 @@
         android:id="@+id/button4"
         android:onClick="jump_to_bt"
         android:layout_alignParentBottom="true" />
-
 
 
 </RelativeLayout>

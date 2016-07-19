@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.canadiansolar.a50wportablesolargenerator.BT">
+    tools:context="com.canadiansolar.maple2monitor.BT">
 
         <Button
             android:layout_width="wrap_content"
@@ -86,7 +86,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Temperature (°C)"
+            android:text="System Temperature (°C)"
             android:id="@+id/textView9"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
@@ -122,18 +122,14 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true" />
 
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/imageView2"
-            android:src="@drawable/logo"
-            android:onClick="openManual"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/textClock2"
-            android:layout_above="@+id/status" />
-
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView2"
+        android:src="@drawable/banner"
+        android:onClick="openManual"
+        android:layout_alignBottom="@+id/status"
+        android:layout_centerHorizontal="true" />
 
 
 </RelativeLayout>

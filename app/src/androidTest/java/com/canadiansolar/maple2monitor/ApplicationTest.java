@@ -1,4 +1,4 @@
-package com.canadiansolar.a50wportablesolargenerator;
+package com.canadiansolar.maple2monitor;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

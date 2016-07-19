@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    tools:context="com.canadiansolar.a50wportablesolargenerator.Web">
+    tools:context="com.canadiansolar.maple2monitor.Web">
 
     <WebView
         android:layout_width="fill_parent"

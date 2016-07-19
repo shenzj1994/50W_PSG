@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.canadiansolar.a50wportablesolargenerator">
+    package="com.canadiansolar.maple2monitor">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
@@ -9,12 +9,12 @@
     <application
         android:allowBackup="true"
         android:hardwareAccelerated="true"
-        android:icon="@drawable/logo"
+        android:icon="@drawable/logo_512"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Base.Theme.AppCompat.Light">
         <activity
-            android:name=".Start"
+            android:name="com.canadiansolar.maple2monitor.Start"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,9 +23,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Web"
+            android:name="com.canadiansolar.maple2monitor.Web"
             android:theme="@style/Base.Theme.AppCompat.Light" />
-        <activity android:name=".BT"
+        <activity android:name="com.canadiansolar.maple2monitor.BT"
             />
 
     </application>

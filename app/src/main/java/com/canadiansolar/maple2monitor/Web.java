@@ -1,4 +1,4 @@
-package com.canadiansolar.a50wportablesolargenerator;
+package com.canadiansolar.maple2monitor;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -22,5 +22,9 @@ public class Web extends AppCompatActivity {
         wv.loadUrl("http://docs.google.com/gview?embedded=true&url="+"http://zhongjieshen.com/50 W Spec.pdf");
     }
 
+    protected void onPause(){
+        super.onPause();
 
+
+    }
 }
