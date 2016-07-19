@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    tools:context="com.canadiansolar.maple2monitor.Web">
+    tools:context=".Manual">
 
     <WebView
         android:layout_width="fill_parent"

@@ -22,14 +22,14 @@ import java.util.Set;
 import java.util.UUID;
 
 
-public class BT extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
     private UUID MY_UUID;
-    TextView Voltage;
-    TextView Current;
-    TextView Temperature;
-    TextView status;
-    Button connectButton;
-    Button disconnectButton;
+    private TextView Voltage;
+    private TextView Current;
+    private TextView Temperature;
+    private TextView status;
+    private Button connectButton;
+    private Button disconnectButton;
 
 
     private Handler rHandle;
@@ -51,7 +51,7 @@ public class BT extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bt);
+        setContentView(R.layout.activity_main);
 
         rHandle = new Handler();
 
@@ -105,7 +105,7 @@ public class BT extends AppCompatActivity {
     }
 
     public void openManual(View view) {
-        Intent intent = new Intent(this, Web.class);
+        Intent intent = new Intent(this, Manual.class);
         startActivity(intent);
     }
 

@@ -1,27 +1,27 @@
 {
   "project_info": {
-    "project_number": "193642408301",
-    "firebase_url": "https://maple-ii-706a1.firebaseio.com",
-    "project_id": "maple-ii-706a1",
-    "storage_bucket": "maple-ii-706a1.appspot.com"
+    "project_number": "167228345149",
+    "firebase_url": "https://maple-ii-a5f67.firebaseio.com",
+    "project_id": "maple-ii-a5f67",
+    "storage_bucket": "maple-ii-a5f67.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:193642408301:android:6e68dab27121a98f",
+        "mobilesdk_app_id": "1:167228345149:android:0435001e89d4af4a",
         "android_client_info": {
-          "package_name": "com.canadiansolar.a50wportablesolargenerator"
+          "package_name": "com.canadiansolar.maple2monitor"
         }
       },
       "oauth_client": [
         {
-          "client_id": "193642408301-qqtfce21e59upcsgqqku9d2fm008n3kt.apps.googleusercontent.com",
+          "client_id": "167228345149-u67m4tbqpaaia9gtltp3ud12rcnufb0k.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyA1GBJ73ZwrEEmXv0LfF7ImtgaH1viOteg"
+          "current_key": "AIzaSyDvwPe-1yoB4QKUBo0tWEPxYmm2Ev9O5UY"
         }
       ],
       "services": {
