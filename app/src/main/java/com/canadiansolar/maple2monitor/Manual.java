@@ -20,6 +20,6 @@ public class Manual extends AppCompatActivity {
         WebSettings webSettings = wv.getSettings();
         webSettings.setJavaScriptEnabled(true);
         wv.setWebViewClient(new WebViewClient());
-        wv.loadUrl("http://docs.google.com/gview?embedded=true&url="+"http://zhongjieshen.com/50 W Spec.pdf");
+        wv.loadUrl("http://docs.google.com/gview?embedded=true&url=" + "http://zhongjieshen.com/Manual.pdf");
     }
 }
