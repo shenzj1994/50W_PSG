@@ -3,35 +3,34 @@ package com.canadiansolar.maple2monitor;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
-import android.view.Window;
 
 
 public class Start extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
         setContentView(R.layout.activity_start);
 
-        int uiOptions=View.SYSTEM_UI_FLAG_IMMERSIVE;
+        int uiOptions=View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
         View decorView = getWindow().getDecorView();
         decorView.setSystemUiVisibility(uiOptions);
 
-/*        // Delay for some time
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                jump();
+                jump_to_main(null);
             }
-        }, 3000);*/
+        }, 3000);
     }
 
 
-    public void jump_to_bt(View view){
-        Intent BT_Intent=new Intent(this,MainActivity.class);
-        startActivity(BT_Intent);
+    public void jump_to_main(View view){
+        Intent intent=new Intent(this,MainActivity.class);
+        startActivity(intent);
     }
 
 }

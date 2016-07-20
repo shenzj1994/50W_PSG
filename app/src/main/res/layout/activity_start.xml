@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:text="Enter"
         android:id="@+id/button4"
-        android:onClick="jump_to_bt"
+        android:onClick="jump_to_main"
         android:layout_alignParentBottom="true" />
 
 
